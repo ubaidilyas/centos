@@ -1,0 +1,568 @@
+{"AllocModifyIndex":49988
+"AllocatedResources":{"Shared":{"DiskMB":200
+"Networks":null}
+"Tasks":{"notification-service":{"Cpu":{"CpuShares":250}
+"Devices":null
+"Memory":{"MemoryMB":1024}
+"Networks":[{"CIDR":""
+"Device":"eth0"
+"DynamicPorts":[{"Label":"api"
+"To":0
+"Value":30665}]
+"IP":"172.21.39.7"
+"MBits":10
+"Mode":""
+"ReservedPorts":null}]}
+"filebeat":{"Cpu":{"CpuShares":100}
+"Devices":null
+"Memory":{"MemoryMB":300}
+"Networks":null}}}
+"ClientDescription":"Tasks are running"
+"ClientStatus":"running"
+"CreateIndex":49988
+"CreateTime":1585203469455626409
+"DeploymentID":"f2653bce-b55e-6e26-5202-4babf65662c5"
+"DeploymentStatus":{"Canary":false
+"Healthy":true
+"ModifyIndex":49999
+"Timestamp":"2020-03-26T06:18:40.882536161Z"}
+"DesiredStatus":"run"
+"EvalID":"9a00e1c6-10f1-c6c2-0cf0-50f59e7a09b2"
+"ID":"d08df2a1-4945-e588-edc5-eb76f1712086"
+"Job":{"Affinities":null
+"AllAtOnce":false
+"Constraints":[{"LTarget":"${meta.dc}"
+"Operand":"="
+"RTarget":"azwe"}]
+"CreateIndex":30747
+"Datacenters":["azwe"]
+"Dispatched":false
+"ID":"notification-service"
+"JobModifyIndex":49986
+"Meta":null
+"ModifyIndex":49986
+"Name":"notification-service"
+"Namespace":"default"
+"ParameterizedJob":null
+"ParentID":""
+"Payload":null
+"Periodic":null
+"Priority":50
+"Region":"global"
+"Spreads":null
+"Stable":false
+"Status":"running"
+"StatusDescription":""
+"Stop":false
+"SubmitTime":1585203469413361018
+"TaskGroups":[{"Affinities":null
+"Constraints":[{"LTarget":"${meta.zone}"
+"Operand":"distinct_property"
+"RTarget":"1"}]
+"Count":2
+"EphemeralDisk":{"Migrate":false
+"SizeMB":200
+"Sticky":false}
+"Meta":null
+"Migrate":{"HealthCheck":"checks"
+"HealthyDeadline":300000000000
+"MaxParallel":1
+"MinHealthyTime":10000000000}
+"Name":"notification-service"
+"Networks":null
+"ReschedulePolicy":{"Attempts":0
+"Delay":30000000000
+"DelayFunction":"exponential"
+"Interval":0
+"MaxDelay":3600000000000
+"Unlimited":true}
+"RestartPolicy":{"Attempts":2
+"Delay":15000000000
+"Interval":1800000000000
+"Mode":"fail"}
+"Services":null
+"Spreads":null
+"Tasks":[{"Affinities":null
+"Artifacts":null
+"Config":{"image":"elastic/filebeat:7.6.0"
+"volumes":["local/filebeat.yml:/usr/share/filebeat/filebeat.yml"]}
+"Constraints":null
+"DispatchPayload":null
+"Driver":"docker"
+"Env":null
+"KillSignal":""
+"KillTimeout":5000000000
+"Kind":""
+"Leader":false
+"LogConfig":{"MaxFileSizeMB":10
+"MaxFiles":10}
+"Meta":null
+"Name":"filebeat"
+"Resources":{"CPU":100
+"Devices":null
+"DiskMB":0
+"IOPS":0
+"MemoryMB":300
+"Networks":null}
+"Services":null
+"ShutdownDelay":0
+"Templates":[{"ChangeMode":"restart"
+"ChangeSignal":""
+"DestPath":"local/filebeat.yml"
+"EmbeddedTmpl":"filebeat.inputs:\n- type: log\n  paths:\n    - /alloc/logs/*/log4j-logstash.log\n  fields_under_root: true\n  encoding: utf-8\n  fields:\n    application: notification-service\n    environment: stage\n  json:\n    message_key: 'message'\n    keys_under_root: true\n    overwrite_keys: true\n    add_error_key: true\n- type: log\n  paths:\n    - /alloc/logs/*/access.log\n  fields_under_root: true\n  fields:\n    application: notification-service\n    environment: stage\n    type: accesslog\n- type: log\n  paths:\n    - /alloc/logs/newrelic/newrelic_agent.log\n  fields_under_root: true\n  fields:\n    application: notification-service\n    environment: stage\n    type: newrelic\n- type: log\n  paths:\n    - /alloc/logs/*.stderr.0\n  fields_under_root: true\n  fields:\n    application: notification-service\n    environment: stage\n    type: stderr\n- type: log\n  paths:\n    - /alloc/logs/*.stdout.0\n  fields_under_root: true\n  fields:\n    application: notification-service\n    environment: stage\n    type: stdout\n- type: log\n  paths:\n    - /alloc/logs/gc.log\n  fields_under_root: true\n  fields:\n    application: notification-service\n    environment: stage\noutput.kafka:\n  enabled: true\n  # initial brokers for reading cluster metadata\n  hosts: [\"172.21.35.206:9092\"]\n  topic: \"logs\"\n  required_acks: 1\t\n"
+"Envvars":false
+"LeftDelim":"{{"
+"Perms":"0644"
+"RightDelim":"}}"
+"SourcePath":""
+"Splay":5000000000
+"VaultGrace":15000000000}]
+"User":""
+"Vault":null
+"VolumeMounts":null}
+{"Affinities":null
+"Artifacts":[{"GetterMode":"file"
+"GetterOptions":null
+"GetterSource":"https://itopsdiag.blob.core.windows.net/newrelic-java-agent/newrelic-agent-5.10.0.jar"
+"RelativeDest":"local/newrelic-agent.jar"}]
+"Config":{"auth":[{"username":"mondia"
+"password":"rOIo1ss1AIuyjdnx+ZYStPuQ1mzsJkA5"}]
+"image":"mondia.azurecr.io/mondia/notification-service:8435a0f"
+"port_map":[{"api":8080.0}]
+"volumes":["local/newrelic-agent.jar:/mnt/newrelic-agent.jar"
+"local/newrelic.yml:/mnt/newrelic.yml"]}
+"Constraints":null
+"DispatchPayload":null
+"Driver":"docker"
+"Env":{"SPRING_PROFILES_ACTIVE":"stg
+ stg-database"
+"JAVA_TOOL_OPTIONS":"-javaagent:/mnt/newrelic-agent.jar -Dnewrelic.config.file=/mnt/newrelic.yml -Xloggc:/alloc/logs/gc.log -verbose:gc"}
+"KillSignal":""
+"KillTimeout":5000000000
+"Kind":""
+"Leader":true
+"LogConfig":{"MaxFileSizeMB":10
+"MaxFiles":10}
+"Meta":null
+"Name":"notification-service"
+"Resources":{"CPU":250
+"Devices":null
+"DiskMB":0
+"IOPS":0
+"MemoryMB":1024
+"Networks":[{"CIDR":""
+"Device":""
+"DynamicPorts":[{"Label":"api"
+"To":0
+"Value":0}]
+"IP":""
+"MBits":10
+"Mode":""
+"ReservedPorts":null}]}
+"Services":[{"AddressMode":"auto"
+"CanaryTags":null
+"Checks":[{"AddressMode":""
+"Args":null
+"CheckRestart":null
+"Command":""
+"GRPCService":""
+"GRPCUseTLS":false
+"Header":null
+"InitialStatus":""
+"Interval":20000000000
+"Method":""
+"Name":"alive"
+"Path":""
+"PortLabel":""
+"Protocol":""
+"TLSSkipVerify":false
+"TaskName":""
+"Timeout":3000000000
+"Type":"tcp"}]
+"Connect":null
+"Meta":null
+"Name":"notification-service"
+"PortLabel":"api"
+"Tags":["Team-B"
+"traefik.enable=true"
+"traefik.tags=service"
+"traefik.expose=int"
+"traefik.http.routers.notification-service.entrypoints=http"
+"traefik.http.routers.notification-service-ssl.entrypoints=https"
+"traefik.http.routers.notification-service-ssl.tls=true"
+"artifact_id=notification-service"
+"artifact_version=0.0.44-SNAPSHOT"]}]
+"ShutdownDelay":0
+"Templates":[{"ChangeMode":"restart"
+"ChangeSignal":""
+"DestPath":"local/newrelic.yml"
+"EmbeddedTmpl":"# This file configures the New Relic Agent.  New Relic monitors\n# Java applications with deep visibility and low overhead.  For more details and additional\n# configuration options visit https://docs.newrelic.com/docs/java/java-agent-configuration.\n#\n# <%= generated_for_user %>\n#\n# This section is for settings common to all environments.\n# Do not add anything above this next line.\ncommon: &default_settings\n\n  # ============================== LICENSE KEY ===============================\n  # You must specify the license key associated with your New Relic\n  # account. For example
+ if your license key is 12345 use this:\n  # license_key: '12345'\n  # The key binds your Agent's data to your account in the New Relic service.\n  license_key: '38c82b20542b5eeeb96f203ba73efcec0dcc30a5'\n\n  # Agent Enabled\n  # Use this setting to disable the agent instead of removing it from the startup command.\n  # Default is true.\n  agent_enabled: true\n\n  # Set the name of your application as you'd like it show up in New Relic.\n  # If enable_auto_app_naming is false
+ the agent reports all data to this application.\n  # Otherwise
+ the agent reports only background tasks (transactions for non-web applications)\n  # to this application. To report data to more than one application \n  # (useful for rollup reporting)
+ separate the application names with \";\".\n  # For example
+ to report data to \"My Application\" and \"My Application 2\" use this:\n  # app_name: My Application;My Application 2\n  # This setting is required. Up to 3 different application names can be specified.\n  # The first application name must be unique.\n  app_name: \"notification-service stage\"\n\n  # To enable high security
+ set this property to true. When in high\n  # security mode
+ the agent will use SSL and obfuscated SQL. Additionally
+\n  # request parameters and message parameters will not be sent to New Relic.\n  high_security: false\n\n  # Set to true to enable support for auto app naming.\n  # The name of each web app is detected automatically\n  # and the agent reports data separately for each one.\n  # This provides a finer-grained performance breakdown for\n  # web apps in New Relic.\n  # Default is false.\n  enable_auto_app_naming: false\n\n  # Set to true to enable component-based transaction naming.\n  # Set to false to use the URI of a web request as the name of the transaction.\n  # Default is true.\n  enable_auto_transaction_naming: true\n\n  # The agent uses its own log file to keep its logging\n  # separate from that of your application.  Specify the log level here.\n  # This setting is dynamic
+ so changes do not require restarting your application.\n  # The levels in increasing order of verboseness are:\n  #   off
+ severe
+ warning
+ info
+ fine
+ finer
+ finest\n  # Default is info.\n  log_level: info\n\n  # Log all data sent to and from New Relic in plain text.\n  # This setting is dynamic
+ so changes do not require restarting your application.\n  # Default is false.\n  audit_mode: false\n\n  # The number of backup log files to save.\n  # Default is 1.\n  log_file_count: 1\n\n  # The maximum number of kbytes to write to any one log file.\n  # The log_file_count must be set greater than 1.\n  # Default is 0 (no limit).\n  log_limit_in_kbytes: 50000\n\n  # Override other log rolling configuration and roll the logs daily.\n  # Default is false.\n  log_daily: false\n\n  # The name of the log file.\n  # Default is newrelic_agent.log.\n  log_file_name: newrelic_agent.log\n\n  # The log file directory.\n  # Default is the logs directory in the newrelic.jar parent directory.\n  #log_file_path: /alloc/logs/newrelic/\n\n  # Proxy settings for connecting to the New Relic server:\n  # If a proxy is used
+ the host setting is required.  Other settings\n  # are optional.  Default port is 8080.  The username and password\n  # settings will be used to authenticate to Basic Auth challenges\n  # from a proxy server. Proxy scheme will allow the agent to\n  # connect through proxies using the HTTPS scheme.\n  #proxy_host: hostname\n  #proxy_port: 8080\n  #proxy_user: username\n  #proxy_password: password\n  #proxy_scheme: https\n\n  # Limits the number of lines to capture for each stack trace. \n  # Default is 30\n  max_stack_trace_lines: 30\n\n  # Provides the ability to configure the attributes sent to New Relic. These\n  # attributes can be found in transaction traces
+ traced errors
+ Insight's \n  # transaction events
+ and Insight's page views.\n  attributes:\n  \n    # When true
+ attributes will be sent to New Relic. The default is true.\n    enabled: true\n    \n    #A comma separated list of attribute keys whose values should \n    # be sent to New Relic.\n    #include:\n    \n    # A comma separated list of attribute keys whose values should \n    # not be sent to New Relic.\n    #exclude:\n    \n\n  # Transaction tracer captures deep information about slow\n  # transactions and sends this to the New Relic service once a\n  # minute. Included in the transaction is the exact call sequence of\n  # the transactions including any SQL statements issued.\n  transaction_tracer:\n\n    # Transaction tracer is enabled by default. Set this to false to turn it off.\n    # This feature is not available to Lite accounts and is automatically disabled.\n    # Default is true.\n    enabled: true\n\n    # Threshold in seconds for when to collect a transaction\n    # trace. When the response time of a controller action exceeds\n    # this threshold
+ a transaction trace will be recorded and sent to\n    # New Relic. Valid values are any float value
+ or (default) \"apdex_f\"
+\n    # which will use the threshold for the \"Frustrated\" Apdex level\n    # (greater than four times the apdex_t value).\n    # Default is apdex_f.\n    transaction_threshold: apdex_f\n\n    # When transaction tracer is on
+ SQL statements can optionally be\n    # recorded. The recorder has three modes
+ \"off\" which sends no\n    # SQL
+ \"raw\" which sends the SQL statement in its original form
+\n    # and \"obfuscated\"
+ which strips out numeric and string literals.\n    # Default is obfuscated.\n    record_sql: obfuscated\n\n    # Set this to true to log SQL statements instead of recording them.\n    # SQL is logged using the record_sql mode.\n    # Default is false.\n    log_sql: false\n\n    # Threshold in seconds for when to collect stack trace for a SQL\n    # call. In other words
+ when SQL statements exceed this threshold
+\n    # then capture and send to New Relic the current stack trace. This is\n    # helpful for pinpointing where long SQL calls originate from.\n    # Default is 0.5 seconds.\n    stack_trace_threshold: 0.5\n\n    # Determines whether the agent will capture query plans for slow\n    # SQL queries. Only supported for MySQL and PostgreSQL.\n    # Default is true.\n    explain_enabled: true\n\n    # Threshold for query execution time below which query plans will not \n    # not be captured.  Relevant only when `explain_enabled` is true.\n    # Default is 0.5 seconds.\n    explain_threshold: 0.5\n\n    # Use this setting to control the variety of transaction traces.\n    # The higher the setting
+ the greater the variety.\n    # Set this to 0 to always report the slowest transaction trace.\n    # Default is 20.\n    top_n: 20\n\n  # Error collector captures information about uncaught exceptions and\n  # sends them to New Relic for viewing.\n  error_collector:\n\n    # This property enables the collection of errors. If the property is not\n    # set or the property is set to false
+ then errors will not be collected.\n    # Default is true.\n    enabled: true\n\n    # Use this property to exclude specific exceptions from being reported as errors\n    # by providing a comma separated list of full class names.\n    # The default is to exclude akka.actor.ActorKilledException. If you want to override\n    # this
+ you must provide any new value as an empty list is ignored.\n    ignore_errors: akka.actor.ActorKilledException\n\n    # Use this property to exclude specific http status codes from being reported as errors\n    # by providing a comma separated list of status codes.\n    # The default is to exclude 404s. If you want to override\n    # this
+ you must provide any new value as an empty list is ignored.\n    ignore_status_codes: 404\n\n  # Transaction Events are used for Histograms and Percentiles. Unaggregated data is collected\n  # for each web transaction and sent to the server on harvest. \n  transaction_events:\n\n    # Set to false to disable transaction events.\n    # Default is true.\n    enabled: true\n\n    # Events are collected up to the configured amount. Afterwards
+ events are sampled to\n    # maintain an even distribution across the harvest cycle.\n    # Default is 2000.  Setting to 0 will disable.\n    max_samples_stored: 2000\n\n  # Distributed tracing lets you see the path that a request takes through your distributed system.\n  # Enabling distributed tracing changes the behavior of some New Relic features
+ so carefully consult the transition\n  # guide before you enable this feature: https://docs.newrelic.com/docs/transition-guide-distributed-tracing\n  # Default is false.\n  distributed_tracing:\n    enabled: true\n\n  # Cross Application Tracing adds request and response headers to\n  # external calls using supported HTTP libraries to provide better\n  # performance data when calling applications monitored by other New Relic Agents.\n  cross_application_tracer:\n\n    # Set to false to disable cross application tracing.\n    # Default is true.\n    enabled: true\n\n  # Thread profiler measures wall clock time
+ CPU time
+ and method call counts\n  # in your application's threads as they run.\n  # This feature is not available to Lite accounts and is automatically disabled.\n  thread_profiler:\n\n    # Set to false to disable the thread profiler.\n    # Default is true.\n    enabled: true\n\n  # New Relic Real User Monitoring gives you insight into the performance real users are\n  # experiencing with your website. This is accomplished by measuring the time it takes for\n  # your users' browsers to download and render your web pages by injecting a small amount\n  # of JavaScript code into the header and footer of each page. \n  browser_monitoring:\n\n    # By default the agent automatically inserts API calls in compiled JSPs to\n    # inject the monitoring JavaScript into web pages. Not all rendering engines are supported.\n    # See https://docs.newrelic.com/docs/java/real-user-monitoring-in-java#manual_instrumentation\n    # for instructions to add these manually to your pages.\n    # Set this attribute to false to turn off this behavior.\n    auto_instrument: true\n\n  class_transformer:\n    # This instrumentation reports the name of the user principal returned from \n    # HttpServletRequest.getUserPrincipal() when servlets and filters are invoked.\n    com.newrelic.instrumentation.servlet-user:\n      enabled: false\n\n    com.newrelic.instrumentation.spring-aop-2:\n      enabled: false\n\n    # This instrumentation reports metrics for resultset operations.\n    com.newrelic.instrumentation.jdbc-resultset:\n      enabled: false\n\n    # Classes loaded by classloaders in this list will not be instrumented.\n    # This is a useful optimization for runtimes which use classloaders to\n    # load dynamic classes which the agent would not instrument.\n    classloader_excludes:\n      groovy.lang.GroovyClassLoader$InnerLoader
+\n      org.codehaus.groovy.runtime.callsite.CallSiteClassLoader
+\n      com.collaxa.cube.engine.deployment.BPELClassLoader
+\n      org.springframework.data.convert.ClassGeneratingEntityInstantiator$ObjectInstantiatorClassGenerator
+\n      org.mvel2.optimizers.impl.asm.ASMAccessorOptimizer$ContextClassLoader
+\n      gw.internal.gosu.compiler.SingleServingGosuClassLoader
+\n\n  # User-configurable custom labels for this agent.  Labels are name-value pairs.\n  # There is a maximum of 64 labels per agent.  Names and values are limited to 255 characters.\n  # Names and values may not contain colons (:) or semicolons (;).\n  labels:\n\n    # An example label\n    #label_name: label_value\n    artifact_id: notification-service\n    location: azwe\n    environment: stage\n    orchestrator: nomad\n\n\n# Application Environments\n# ------------------------------------------\n# Environment specific settings are in this section.\n# You can use the environment to override the default settings.\n# For example
+ to change the app_name setting.\n# Use -Dnewrelic.environment=<environment> on the Java startup command line\n# to set the environment.\n# The default environment is production.\n\n# NOTE if your application has other named environments
+ you should\n# provide configuration settings for these environments here.\n\ndevelopment:\n  <<: *default_settings\n  app_name: My Application (Development)\n\ntest:\n  <<: *default_settings\n  app_name: My Application (Test)\n\nproduction:\n  <<: *default_settings\n\nstaging:\n  <<: *default_settings\n  app_name: My Application (Staging)\n\n"
+"Envvars":false
+"LeftDelim":"{{"
+"Perms":"0644"
+"RightDelim":"}}"
+"SourcePath":""
+"Splay":5000000000
+"VaultGrace":15000000000}]
+"User":""
+"Vault":null
+"VolumeMounts":null}]
+"Update":{"AutoPromote":false
+"AutoRevert":false
+"Canary":0
+"HealthCheck":"checks"
+"HealthyDeadline":180000000000
+"MaxParallel":1
+"MinHealthyTime":10000000000
+"ProgressDeadline":600000000000
+"Stagger":30000000000}
+"Volumes":null}]
+"Type":"service"
+"Update":{"AutoPromote":false
+"AutoRevert":false
+"Canary":0
+"HealthCheck":""
+"HealthyDeadline":0
+"MaxParallel":1
+"MinHealthyTime":0
+"ProgressDeadline":0
+"Stagger":30000000000}
+"VaultToken":""
+"Version":19}
+"JobID":"notification-service"
+"Metrics":{"AllocationTime":256915
+"ClassExhausted":null
+"ClassFiltered":null
+"CoalescedFailures":0
+"ConstraintFiltered":{"${meta.dc} = azwe":1
+"distinct_property: ${meta.zone}=2 used by 1 allocs":1}
+"DimensionExhausted":null
+"NodesAvailable":{"azwe":6}
+"NodesEvaluated":6
+"NodesExhausted":0
+"NodesFiltered":2
+"QuotaExhausted":null
+"ScoreMetaData":[{"NodeID":"84aaeedd-835c-7835-0f10-01f102c9774c"
+"NormScore":0.9993290834889432
+"Scores":{"job-anti-affinity":0.0
+"node-reschedule-penalty":0.0
+"node-affinity":0.0
+"binpack":0.9993290834889432}}
+{"NodeID":"1e4d22c8-08a1-eff3-20bf-d03922d94919"
+"NormScore":0.3369360944240567
+"Scores":{"node-reschedule-penalty":0.0
+"node-affinity":0.0
+"binpack":0.3369360944240567
+"job-anti-affinity":0.0}}
+{"NodeID":"2f54346d-94f0-c589-9b2d-eab949bcc95a"
+"NormScore":0.19964399796846996
+"Scores":{"binpack":0.19964399796846996
+"job-anti-affinity":0.0
+"node-reschedule-penalty":0.0
+"node-affinity":0.0}}
+{"NodeID":"1e75ab2c-5cd1-4464-75bf-f0d201804d1d"
+"NormScore":-0.07750218649128432
+"Scores":{"binpack":0.8449956270174314
+"job-anti-affinity":0.0
+"node-reschedule-penalty":-1.0
+"node-affinity":0.0}}]
+"Scores":null}
+"ModifyIndex":49999
+"ModifyTime":1585203521016360333
+"Name":"notification-service.notification-service[0]"
+"Namespace":"default"
+"NodeID":"84aaeedd-835c-7835-0f10-01f102c9774c"
+"NodeName":"nomadclient3"
+"PreviousAllocation":"4a67bdd9-e559-86a2-7b3e-55e00d1e85b9"
+"Resources":{"CPU":350
+"Devices":null
+"DiskMB":200
+"IOPS":0
+"MemoryMB":1324
+"Networks":[{"CIDR":""
+"Device":"eth0"
+"DynamicPorts":[{"Label":"api"
+"To":0
+"Value":30665}]
+"IP":"172.21.39.7"
+"MBits":10
+"Mode":""
+"ReservedPorts":null}]}
+"SharedResources":{"CPU":0
+"Devices":null
+"DiskMB":200
+"IOPS":0
+"MemoryMB":0
+"Networks":null}
+"TaskGroup":"notification-service"
+"TaskResources":{"filebeat":{"CPU":100
+"Devices":null
+"DiskMB":0
+"IOPS":0
+"MemoryMB":300
+"Networks":null}
+"notification-service":{"CPU":250
+"Devices":null
+"DiskMB":0
+"IOPS":0
+"MemoryMB":1024
+"Networks":[{"CIDR":""
+"Device":"eth0"
+"DynamicPorts":[{"Label":"api"
+"To":0
+"Value":30665}]
+"IP":"172.21.39.7"
+"MBits":10
+"Mode":""
+"ReservedPorts":null}]}}
+"TaskStates":{"filebeat":{"Events":[{"Details":{}
+"DiskLimit":0
+"DisplayMessage":"Task received by client"
+"DownloadError":""
+"DriverError":""
+"DriverMessage":""
+"ExitCode":0
+"FailedSibling":""
+"FailsTask":false
+"GenericSource":""
+"KillError":""
+"KillReason":""
+"KillTimeout":0
+"Message":""
+"RestartReason":""
+"SetupError":""
+"Signal":0
+"StartDelay":0
+"TaskSignal":""
+"TaskSignalReason":""
+"Time":1585203469526450582
+"Type":"Received"
+"ValidationError":""
+"VaultError":""}
+{"Details":{"message":"Building Task Directory"}
+"DiskLimit":0
+"DisplayMessage":"Building Task Directory"
+"DownloadError":""
+"DriverError":""
+"DriverMessage":""
+"ExitCode":0
+"FailedSibling":""
+"FailsTask":false
+"GenericSource":""
+"KillError":""
+"KillReason":""
+"KillTimeout":0
+"Message":"Building Task Directory"
+"RestartReason":""
+"SetupError":""
+"Signal":0
+"StartDelay":0
+"TaskSignal":""
+"TaskSignalReason":""
+"Time":1585203474058764821
+"Type":"Task Setup"
+"ValidationError":""
+"VaultError":""}
+{"Details":{}
+"DiskLimit":0
+"DisplayMessage":"Task started by client"
+"DownloadError":""
+"DriverError":""
+"DriverMessage":""
+"ExitCode":0
+"FailedSibling":""
+"FailsTask":false
+"GenericSource":""
+"KillError":""
+"KillReason":""
+"KillTimeout":0
+"Message":""
+"RestartReason":""
+"SetupError":""
+"Signal":0
+"StartDelay":0
+"TaskSignal":""
+"TaskSignalReason":""
+"Time":1585203475626959533
+"Type":"Started"
+"ValidationError":""
+"VaultError":""}]
+"Failed":false
+"FinishedAt":null
+"LastRestart":null
+"Restarts":0
+"StartedAt":"2020-03-26T06:17:55.626966433Z"
+"State":"running"}
+"notification-service":{"Events":[{"Details":{}
+"DiskLimit":0
+"DisplayMessage":"Task received by client"
+"DownloadError":""
+"DriverError":""
+"DriverMessage":""
+"ExitCode":0
+"FailedSibling":""
+"FailsTask":false
+"GenericSource":""
+"KillError":""
+"KillReason":""
+"KillTimeout":0
+"Message":""
+"RestartReason":""
+"SetupError":""
+"Signal":0
+"StartDelay":0
+"TaskSignal":""
+"TaskSignalReason":""
+"Time":1585203469527268787
+"Type":"Received"
+"ValidationError":""
+"VaultError":""}
+{"Details":{"message":"Building Task Directory"}
+"DiskLimit":0
+"DisplayMessage":"Building Task Directory"
+"DownloadError":""
+"DriverError":""
+"DriverMessage":""
+"ExitCode":0
+"FailedSibling":""
+"FailsTask":false
+"GenericSource":""
+"KillError":""
+"KillReason":""
+"KillTimeout":0
+"Message":"Building Task Directory"
+"RestartReason":""
+"SetupError":""
+"Signal":0
+"StartDelay":0
+"TaskSignal":""
+"TaskSignalReason":""
+"Time":1585203474133293961
+"Type":"Task Setup"
+"ValidationError":""
+"VaultError":""}
+{"Details":{}
+"DiskLimit":0
+"DisplayMessage":"Client is downloading artifacts"
+"DownloadError":""
+"DriverError":""
+"DriverMessage":""
+"ExitCode":0
+"FailedSibling":""
+"FailsTask":false
+"GenericSource":""
+"KillError":""
+"KillReason":""
+"KillTimeout":0
+"Message":""
+"RestartReason":""
+"SetupError":""
+"Signal":0
+"StartDelay":0
+"TaskSignal":""
+"TaskSignalReason":""
+"Time":1585203474326403800
+"Type":"Downloading Artifacts"
+"ValidationError":""
+"VaultError":""}
+{"Details":{"image":"mondia.azurecr.io/mondia/notification-service:8435a0f"}
+"DiskLimit":0
+"DisplayMessage":"Downloading image"
+"DownloadError":""
+"DriverError":""
+"DriverMessage":"Downloading image"
+"ExitCode":0
+"FailedSibling":""
+"FailsTask":false
+"GenericSource":""
+"KillError":""
+"KillReason":""
+"KillTimeout":0
+"Message":""
+"RestartReason":""
+"SetupError":""
+"Signal":0
+"StartDelay":0
+"TaskSignal":""
+"TaskSignalReason":""
+"Time":1585203475081590165
+"Type":"Driver"
+"ValidationError":""
+"VaultError":""}
+{"Details":{}
+"DiskLimit":0
+"DisplayMessage":"Task started by client"
+"DownloadError":""
+"DriverError":""
+"DriverMessage":""
+"ExitCode":0
+"FailedSibling":""
+"FailsTask":false
+"GenericSource":""
+"KillError":""
+"KillReason":""
+"KillTimeout":0
+"Message":""
+"RestartReason":""
+"SetupError":""
+"Signal":0
+"StartDelay":0
+"TaskSignal":""
+"TaskSignalReason":""
+"Time":1585203477593183582
+"Type":"Started"
+"ValidationError":""
+"VaultError":""}]
+"Failed":false
+"FinishedAt":null
+"LastRestart":null
+"Restarts":0
+"StartedAt":"2020-03-26T06:17:57.593190082Z"
+"State":"running"}}}
